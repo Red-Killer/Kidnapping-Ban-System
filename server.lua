@@ -17,7 +17,7 @@ RegisterCommand(Config.Command, function(source, args, rawCommand)
     end
 
     TriggerClientEvent("kidnap:startAbschiebung", target, src)
-    waitingForbans[src] = { reason = reason }
+    waitingForbans[target] = { reason = reason }
 
     TriggerClientEvent("chat:addMessage", src,
         { args = { "^1SYSTEM", Config.Translation[Config.Locale]['kidnapping_started'] } })
