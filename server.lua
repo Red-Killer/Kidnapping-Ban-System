@@ -5,31 +5,34 @@ RegisterCommand(Config.Command, function(source, args, rawCommand)
     local target = args[1]
     local reason = args[2] or Config.Translation[Config.Locale]['default_ban_reason']
     if not target then
-        TriggerClientEvent("chat:addMessage", src, {args = {"^1SYSTEM", Config.Translation[Config.Locale]['player_not_given']}})
+        TriggerClientEvent("chat:addMessage", src,
+            { args = { "^1SYSTEM", Config.Translation[Config.Locale]['player_not_given'] } })
         return
     end
 
     if not GetPlayerName(target) then
-        TriggerClientEvent("chat:addMessage", src, {args = {"^1SYSTEM", Config.Translation[Config.Locale]['player_not_found']}})
+        TriggerClientEvent("chat:addMessage", src,
+            { args = { "^1SYSTEM", Config.Translation[Config.Locale]['player_not_found'] } })
         return
     end
-    
-    TriggerClientEvent("kidnap:startAbschiebung", target, src)
-    waitingForbans[src] = {reason = reason}
 
-    TriggerClientEvent("chat:addMessage", src, {args = {"^1SYSTEM", Config.Translation[Config.Locale]['kidnapping_started']}})
+    TriggerClientEvent("kidnap:startAbschiebung", target, src)
+    waitingForbans[src] = { reason = reason }
+
+    TriggerClientEvent("chat:addMessage", src,
+        { args = { "^1SYSTEM", Config.Translation[Config.Locale]['kidnapping_started'] } })
 end, "admin")
 
 AddEventHandler("playerDropped", function()
     local src = source
-    if waitingForbans[src] then
-        banPlayer(src, waitingForbans[src].reason)
-        waitingForbans[src] = nil
-    end
+    if not waitingForbans[src] then return end
+    banPlayer(src, waitingForbans[src].reason)
+    waitingForbans[src] = nil
 end)
 
 RegisterNetEvent("kidnap:endedAbschiebung", function()
     local src = source
+    if not waitingForbans[src] then return end
     banPlayer(src, waitingForbans[src].reason)
     waitingForbans[src] = nil
 end)
