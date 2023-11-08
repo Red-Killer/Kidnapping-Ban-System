@@ -29,6 +29,7 @@ AddEventHandler("playerDropped", function()
 end)
 
 RegisterNetEvent("kidnap:endedAbschiebung", function()
-    banPlayer(source, waitingForbans[source].reason)
-    waitingForbans[source] = nil
+    local src = source
+    banPlayer(src, waitingForbans[src].reason)
+    waitingForbans[src] = nil
 end)
