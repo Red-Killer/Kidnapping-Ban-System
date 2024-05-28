@@ -1,6 +1,4 @@
 
-local debug = false
-
 local function playAnimation(ped, animDict, animName, flag, async)
     RequestAnimDict(animDict)
     while not HasAnimDictLoaded(animDict) do Citizen.Wait(0) end
@@ -10,11 +8,6 @@ end
 
 local function randomWeapon()
     local weaponlist = { "WEAPON_PISTOL" }
-    if debug then
-        for i = 1, #weaponlist do
-            print(weaponlist[i])
-        end
-    end
     return weaponlist[math.random(1, #weaponlist)]
 end
 
@@ -23,11 +16,6 @@ local function getRandomPed()
         "s_m_y_blackops_01", "s_m_m_highsec_02", "s_m_m_fiboffice_02", "s_m_m_chemsec_01", "mp_m_bogdangoon",
         "g_m_m_chicold_01", "csb_tomcasino", "csb_brucie2", "csb_ramp_marine", "csb_mweather", "u_m_m_streetart_01",
         "g_m_m_cartelguards_01" }
-    if debug then
-        for i = 1, #pedlist do
-            print(pedlist[i])
-        end
-    end
     return pedlist[math.random(1, #pedlist)]
 end
 
@@ -122,7 +110,6 @@ end
 
 RegisterNetEvent('kidnap:startAbschiebung', function(data)
     --TriggerEvent("scully_emotemenu:toggleLimitation", true) Only if you have scully_emotemenu else you can delete this line or replace it with your own event
-    TriggerEvent("scully_emotemenu:toggleLimitation", true)
     local coords = vector3(-963.5541, -2728.2590, 13.7566)
     local ped = GetPlayerPed(-1)
 
@@ -186,9 +173,7 @@ RegisterNetEvent('kidnap:startAbschiebung', function(data)
     NetworkAddPedToSynchronisedScene(ped, scene, ped_animDist, ped_animName, 2.0, -2.0, 13, 16, 1148846080, 0)
 
     NetworkStartSynchronisedScene(scene)
-    isSceneActive = true
     Citizen.Wait(10500)
-    isSceneActive = false
     NetworkStopSynchronisedScene(scene)
 
     SetVehicleDoorShut(vehicleSpawn, 2, false)
