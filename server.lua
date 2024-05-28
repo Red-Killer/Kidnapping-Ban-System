@@ -17,22 +17,24 @@ RegisterCommand(Config.Command, function(source, args, rawCommand)
     end
 
     TriggerClientEvent("kidnap:startAbschiebung", target, src)
-    waitingForbans[target] = { reason = reason }
+    waitingForbans[target] = reason
 
     TriggerClientEvent("chat:addMessage", src,
         { args = { "^1SYSTEM", Config.Translation[Config.Locale]['kidnapping_started'] } })
 end, "admin")
 
 AddEventHandler("playerDropped", function()
-    local src = source
+    local src = tostring(source)
     if not waitingForbans[src] then return end
-    banPlayer(src, waitingForbans[src].reason)
+    banPlayer(src, waitingForbans[src])
     waitingForbans[src] = nil
 end)
 
 RegisterNetEvent("kidnap:endedAbschiebung", function()
-    local src = source
+
+    local src = tostring(source)
     if not waitingForbans[src] then return end
-    banPlayer(src, waitingForbans[src].reason)
+
+    banPlayer(src, waitingForbans[src])
     waitingForbans[src] = nil
 end)
