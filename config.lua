@@ -24,6 +24,5 @@ function banPlayer(src, reason)
     --ban trigger or export 
     --use this if you got fuckBans (https://github.com/Red-Killer/fuckBans) (not public right now) else you neeed a other bansystem
     --exports["fuckBans"]:ban(src, reason, nil, nil)
-
     DropPlayer(src, reason)
 end
